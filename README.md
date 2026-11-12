@@ -4,6 +4,19 @@ Physical bilingual picture books delivered monthly, paired with synchronized nat
 
 **Stack (team standard):** Next.js (frontend) · Node.js + Express (API) · MongoDB (Mongoose)
 
+## Live
+
+| Part | Where | URL |
+| ---- | ----- | --- |
+| Frontend | Vercel (Hobby, free) | https://storybridge-tau.vercel.app |
+| API | Render (free web service, Singapore) | https://storybridge-api.onrender.com |
+| Database | MongoDB Atlas (M0, free) | — |
+
+- Render redeploys the API automatically on every push to `main`. It's configured by [`render.yaml`](render.yaml), with env vars set in the Render dashboard.
+- The frontend is deployed with `vercel deploy --prod` from `frontend/`. `API_URL` is set in the Vercel project settings.
+- The Atlas IP access list allows only Render's Singapore outbound ranges (`74.220.52.0/24`, `74.220.60.0/24`). Update it if the service moves region.
+- The free Render instance sleeps after about 15 minutes idle, so the first request after that takes roughly 30–60 seconds.
+
 ## Features
 
 - **Catalogue**: every book is printed in two languages (e.g. English ⇄ Spanish, English ⇄ हिन्दी). You can filter by language and child's age.
