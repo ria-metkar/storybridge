@@ -34,6 +34,7 @@ export default function ReadAlongPlayer({ book }) {
   const [autoTurn, setAutoTurn] = useState(true);
   const [ttsSupported, setTtsSupported] = useState(true);
   const [missingVoices, setMissingVoices] = useState([]);
+  const [turn, setTurn] = useState('next'); // direction of the 3D page-turn animation
 
   const audioRef = useRef(null);
   const runRef = useRef(0); // bumping this cancels any in-flight speech chain
@@ -79,6 +80,7 @@ export default function ReadAlongPlayer({ book }) {
   const finishPage = useCallback(() => {
     if (autoTurn && pageIndex < lastPage) {
       autoplayNextRef.current = true;
+      setTurn('next');
       setPageIndex((i) => i + 1);
     } else {
       setPlaying(false);
@@ -158,10 +160,13 @@ export default function ReadAlongPlayer({ book }) {
 
   const goTo = useCallback(
     (index) => {
+      const target = Math.min(Math.max(index, 0), lastPage);
+      if (target === pageIndex) return;
       stop();
-      setPageIndex(Math.min(Math.max(index, 0), lastPage));
+      setTurn(target < pageIndex ? 'prev' : 'next');
+      setPageIndex(target);
     },
-    [stop, lastPage],
+    [stop, lastPage, pageIndex],
   );
 
   useEffect(() => {
@@ -225,7 +230,11 @@ export default function ReadAlongPlayer({ book }) {
         <LanguagePair languages={languages} />
       </header>
 
-      <div className="player-stage" style={{ '--cover': book.coverColor || '#f4a261' }}>
+      <div
+        key={pageIndex}
+        className={`player-stage turn-${turn} ${playing ? 'is-playing' : ''}`}
+        style={{ '--cover': book.coverColor || '#f4a261' }}
+      >
         <div className="illustration" aria-hidden="true">
           {page.illustration || book.coverEmoji || '📖'}
         </div>
@@ -266,8 +275,20 @@ export default function ReadAlongPlayer({ book }) {
         <button className="btn btn-outline" onClick={() => goTo(pageIndex - 1)} disabled={pageIndex === 0}>
           ← Previous
         </button>
-        <button className="btn btn-primary btn-play" onClick={togglePlay} disabled={!canPlay}>
-          {playing ? '❚❚ Pause' : '▶ Play'}
+        <button className={`btn btn-primary btn-play ${playing ? 'playing' : ''}`} onClick={togglePlay} disabled={!canPlay}>
+          {playing ? (
+            <>
+              <span className="eq on" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+              Pause
+            </>
+          ) : (
+            '▶ Play'
+          )}
         </button>
         <button className="btn btn-outline" onClick={() => goTo(pageIndex + 1)} disabled={pageIndex === lastPage}>
           Next →

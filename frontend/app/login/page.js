@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
+import AuthShell from '@/components/AuthShell';
 import { Alert, Field, Spinner } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 import { safeNext } from '@/lib/api';
@@ -30,9 +31,8 @@ function LoginForm() {
   };
 
   return (
-    <div className="container section narrow">
-      <h1>Welcome back</h1>
-      <form className="card stack" onSubmit={onSubmit} noValidate>
+    <AuthShell title="Welcome back" subtitle="Log in to play your stories and manage deliveries.">
+      <form className="stack" onSubmit={onSubmit} noValidate>
         <Alert error={error} />
         <Field label="Email">
           <input
@@ -61,7 +61,7 @@ function LoginForm() {
       <p className="muted">
         New here? <Link href={`/register?next=${encodeURIComponent(next)}`}>Create an account</Link>
       </p>
-    </div>
+    </AuthShell>
   );
 }
 

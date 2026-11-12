@@ -15,7 +15,7 @@ export default function ListenPage() {
     key: user?._id,
   });
 
-  if (authLoading || loading) return <Spinner label="Opening your story…" />;
+  if (authLoading || loading || (!data && !error)) return <Spinner label="Opening your story…" />;
 
   if (error) {
     const next = encodeURIComponent(`/listen/${code}`);

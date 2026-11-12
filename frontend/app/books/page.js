@@ -25,11 +25,19 @@ export default function BooksPage() {
   const { data, error, loading } = useApi('/books', { query: { q, lang, age, page, limit: 12 } });
 
   return (
-    <div className="container section">
-      <h1>The library</h1>
-      <p className="lead muted">Every title is printed in two languages and comes with read-along narration.</p>
-
-      <form className="filters" onSubmit={(e) => e.preventDefault()} role="search">
+    <>
+    <section className="page-hero">
+      <div className="stars" aria-hidden="true" />
+      <div className="container center">
+        <span className="pill">
+          <span className="pill-dot" /> Printed in two languages, narrated by native speakers
+        </span>
+        <h1>The library</h1>
+        <p className="lead">Find stories in your family’s languages.</p>
+      </div>
+    </section>
+    <div className="container section books-section">
+      <form className="filters card card-glass" onSubmit={(e) => e.preventDefault()} role="search">
         <Field label="Search">
           <input
             className="input"
@@ -110,5 +118,6 @@ export default function BooksPage() {
         </>
       )}
     </div>
+    </>
   );
 }

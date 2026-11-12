@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
+import AuthShell from '@/components/AuthShell';
 import { Alert, Field, Spinner } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 import { safeNext } from '@/lib/api';
@@ -32,9 +33,8 @@ function RegisterForm() {
   };
 
   return (
-    <div className="container section narrow">
-      <h1>Create your account</h1>
-      <form className="card stack" onSubmit={onSubmit} noValidate>
+    <AuthShell title="Create your account" subtitle="It takes a minute. You’ll choose a plan next.">
+      <form className="stack" onSubmit={onSubmit} noValidate>
         <Alert error={error} />
         <Field label="Your name">
           <input className="input" autoComplete="name" value={form.name} onChange={set('name')} required />
@@ -67,7 +67,7 @@ function RegisterForm() {
       <p className="muted">
         Already have an account? <Link href={`/login?next=${encodeURIComponent(next)}`}>Log in</Link>
       </p>
-    </div>
+    </AuthShell>
   );
 }
 
