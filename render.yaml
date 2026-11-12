@@ -1,0 +1,27 @@
+# Render Blueprint: deploys the Express API from /backend.
+# Render dashboard -> New -> Blueprint -> pick this repo.
+services:
+  - type: web
+    name: storybridge-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: TRUST_PROXY
+        value: "2"
+      - key: JWT_EXPIRES_DAYS
+        value: "7"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false # paste your MongoDB Atlas connection string when prompted
+      - key: CLIENT_ORIGIN
+        sync: false # your Vercel URL, e.g. https://storybridge.vercel.app

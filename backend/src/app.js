@@ -16,7 +16,7 @@ import userRoutes from './routes/user.routes.js';
 export function createApp() {
   const app = express();
 
-  app.set('trust proxy', 1); // behind the Next.js rewrite proxy / a load balancer
+  app.set('trust proxy', env.trustProxy); // behind the Next.js rewrite proxy / a load balancer
   app.disable('x-powered-by');
 
   app.use(helmet());

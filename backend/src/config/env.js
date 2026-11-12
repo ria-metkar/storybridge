@@ -18,5 +18,8 @@ export const env = {
   jwtSecret: process.env.JWT_SECRET,
   jwtExpiresDays: Number(process.env.JWT_EXPIRES_DAYS) || 7,
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+  // Number of proxies in front of the API, so req.ip (used for rate limiting) is the real client.
+  // Local: 1 (Next.js dev proxy). Vercel rewrite -> Render load balancer: 2.
+  trustProxy: Number(process.env.TRUST_PROXY ?? 1),
   isProd,
 };
