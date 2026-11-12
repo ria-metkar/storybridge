@@ -1,4 +1,12 @@
-const API_URL = process.env.API_URL || 'http://localhost:5000';
+// Trim stray whitespace/BOM (easy to pick up when setting env vars from a shell) and any trailing slash.
+const API_URL = (process.env.API_URL || 'http://localhost:5000')
+  .replace(/^﻿/, '')
+  .trim()
+  .replace(/\/+$/, '');
+
+if (!/^https?:\/\//.test(API_URL)) {
+  throw new Error(`API_URL must start with http:// or https:// (got "${API_URL}")`);
+}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
