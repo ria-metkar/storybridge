@@ -68,7 +68,7 @@ npm run dev
 
 | Role     | Email                     | Password      |
 | -------- | ------------------------- | ------------- |
-| Admin    | `admin@storybridge.test`  | `Admin12345`  |
+| Admin    | `admin@storybridge.test`  | `Aev25xuk86ABbpzDEM7`  |
 | Customer | `parent@storybridge.test` | `Parent12345` |
 
 The demo customer has an active English ⇄ Spanish subscription. To try the full flow:
